@@ -22,11 +22,12 @@
                 <div class="form-group" style="width: 50%;">
                     <label for="pwd">Password</label>
                     <input type="password" class="form-control" name="password" id="pwd" placeholder="password">
-                    <span id="passText">must include special characters</span>
+                    <span id="passText"></span>
                 </div>
                 <div class="form-group" style="width: 50%">
                     <label for="cpwd">Confirm Password</label>
                     <input type="password" name="confirmPassword" class="form-control" id="cpwd" placeholder="confirm password">
+                    <span id="confirmPassText"></span>
                 </div>
             </form>
         </div>
@@ -35,15 +36,40 @@
 </body>
 
 <script>
+
+    var errorArray = [
+        "lowercase letter required",
+        "uppercase letter required",
+        "special character required",
+        "password must be minimum of 6 characters"
+    ]
+
+
     $(document).ready(function () {
         $("#pwd").change(function () {
             var password = $(this).val();
-            if(password.includes('!') || password.includes('@') || password.includes('%') || password.includes('&')) {
-                document.getElementById('passText').innerHTML = "Included"
+
+            if(password.length<6){
+                document.getElementById('passText').innerHTML = errorArray[3]
             }
-            else
-             document.getElementById('passText').innerHTML = "must include special characters"
+            else {
+
+            if (password.includes('!') || password.includes('@') || password.includes('%') || password.includes(
+                    '&') || password.includes('$') || password.includes('#') || password.includes('*')) {
+                document.getElementById('passText').innerHTML = "Included"
+            } else
+                document.getElementById('passText').innerHTML = errorArray[2]
+            } 
+                $("#cpwd").change(function () {
+            var confirmPassword = $(this).val();
+            if (password === confirmPassword) {
+                document.getElementById('confirmPassText').innerHTML = "Password matched";
+            } else 
+                document.getElementById('confirmPassText').innerHTML = "Password didn't matched";
         });
+        });
+
+        
     });
 </script>
 
